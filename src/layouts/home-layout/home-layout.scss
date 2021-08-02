@@ -1,0 +1,14 @@
+/**
+ * 21-08-02 16:42 Monday 
+ * This file used define the module layouts/home-layout styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './layouts/home-layout/home-layout.scss';
+ */
+
+/* there can define module variables or function */
+.home {
+  &-container {
+    color: #fff;
+  }
+}
+

@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+dist-zip/
+coverage
+.eslintignore
+.DS_Store
+# .eslintrc.js
+src/**/*.min.js

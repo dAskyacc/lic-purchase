@@ -1,0 +1,14 @@
+/**
+ * 21-08-02 16:43 Monday 
+ * This file used define the module layouts/page-layout styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './layouts/page-layout/page-layout.scss';
+ */
+
+/* there can define module variables or function */
+.layout {
+  &-container {
+    color: #fff;
+  }
+}
+

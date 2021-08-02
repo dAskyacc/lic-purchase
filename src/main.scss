@@ -1,0 +1,14 @@
+/* App Style entry, this dir relative url img... */
+@import './styles/index.scss';
+
+/* App style override global here. */
+@import './boot/custom-def.scss';
+
+/* ui */
+@import './ui/ui-index.scss';
+
+/* layouts */
+@import './layouts/layout-index.scss';
+
+/* pages */
+@import './views/view-index.scss';

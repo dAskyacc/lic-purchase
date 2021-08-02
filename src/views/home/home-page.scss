@@ -1,0 +1,14 @@
+/**
+ * 21-08-02 16:44 Monday 
+ * This file used define the module home styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './home/home-page.scss';
+ */
+
+/* there can define module variables or function */
+.home {
+  &-container {
+    color: #fff;
+  }
+}
+
