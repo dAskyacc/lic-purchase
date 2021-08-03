@@ -59,9 +59,10 @@ module.exports = merge(commonWebpack, {
   plugins: [
     new Dotenv({
       path: join('./config', '.env.development'),
-      safe: true,
+      safe: false,
       allowEmptyValues: true,
       systemvars: true,
+      expand: true,
     }),
     new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),

@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css t
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer') // help tailwindcss to work
 
-const { R, src, dist, pubdir, favicon } = require('../paths')
+const { R, join, src, dist, pubdir, favicon } = require('../paths')
 const { custThemeVariables } = require('../themes/index')
 const { BaseResolve, imgExtensions } = require('./resolve-helper')
 
@@ -63,9 +63,9 @@ module.exports = {
     // Generates an HTML file from a template
     // Generates deprecation warning: https://github.com/jantimon/html-webpack-plugin/issues/1501
     new HtmlWebpackPlugin({
-      title: 'Project Title',
+      title: 'ProjectTitle',
       favicon: favicon,
-      template: R(pubdir, 'index.html'), // template file
+      template: join(pubdir, 'index.html'), // template file
       filename: 'index.html', // output file
     }),
   ],
@@ -152,6 +152,14 @@ module.exports = {
         use: ['@svgr/webpack'],
       },
 
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+        include: [src],
+        options: {
+          esModule: true,
+        },
+      },
       // Images: Copy image files to build folder
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
 
