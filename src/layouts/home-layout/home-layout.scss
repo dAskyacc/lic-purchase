@@ -6,9 +6,11 @@
  */
 
 /* there can define module variables or function */
+.ant-layout-content {
+  background: #fff;
+}
 .home {
   &-container {
     color: #fff;
   }
 }
-

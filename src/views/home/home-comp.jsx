@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 export default class HomeComp extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -10,13 +9,12 @@ export default class HomeComp extends Component {
   }
 
   componentDidMount() {
-    // there regist something handle. 
+    // there regist something handle.
   }
 
   componentWillUnmount() {
-    // there unregist something handle. 
+    // there unregist something handle.
   }
-
 
   renderHeader() {
     return <div className='home__header'> Home Header</div>
@@ -34,7 +32,7 @@ export default class HomeComp extends Component {
     // const { xxx } = this.props
 
     return (
-      <div className='home'>
+      <div className='home-container'>
         {this.renderHeader()}
         {this.renderContent()}
         {this.renderFooter()}

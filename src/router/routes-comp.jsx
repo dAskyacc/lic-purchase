@@ -2,11 +2,18 @@ import React, { PureComponent } from 'react'
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { ROOT_PATH, HOME_INDEX_ROOT, PAGE_NESTED_ROOT } from './routes-cnsts'
+import {
+  ROOT_PATH,
+  HOME_INDEX_ROOT,
+  PAGE_NESTED_ROOT,
+  ERROR_PAGE_ROOT,
+} from './routes-cnsts'
 
 import HomeLayout from '~Layouts/home-layout'
 
 import PageLayout from '~Layouts/page-layout'
+
+import ErrorLayout from '~Layouts/error-layout'
 
 export default class RoutesComp extends PureComponent {
   state = {}
@@ -27,9 +34,9 @@ export default class RoutesComp extends PureComponent {
 
         </Route> */}
 
-        {/* <Route component={HomeLayout} exact /> */}
+        <Route component={ErrorLayout} />
 
-        <Redirect to={ROOT_PATH} />
+        {/* <Redirect to={ROOT_PATH} /> */}
       </Switch>
     )
   }

@@ -1,0 +1,21 @@
+/**
+ * 21-08-10 19:46 Tuesday 
+ * This file used define the module top-header styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './top-header/top-header.scss';
+ */
+
+/* there can define module variables or function */
+.nav {
+  &-head {
+    display: flex;
+    flex-flow: row nowrap;
+    &.ant-layout-header {
+      background-color: rgba(240, 242, 245, 1);
+    }
+
+    &-menus {
+      flex: 1 1 auto;
+    }
+  }
+}

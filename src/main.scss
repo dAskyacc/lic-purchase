@@ -4,6 +4,8 @@
 /* App style override global here. */
 @import './boot/custom-def.scss';
 
+@import './errors/error-index.scss';
+
 /* ui */
 @import './ui/ui-index.scss';
 
@@ -12,3 +14,6 @@
 
 /* pages */
 @import './views/view-index.scss';
+
+/* Footers */
+@import './foot/foot-index.scss';

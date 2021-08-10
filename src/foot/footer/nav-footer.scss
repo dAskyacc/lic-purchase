@@ -1,0 +1,51 @@
+/**
+ * 21-08-10 21:39 Tuesday 
+ * This file used define the module foot/footer styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './foot/footer/nav-footer.scss';
+ */
+
+/* there can define module variables or function */
+.nav-footer {
+  height: #{$foot-height}px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &-logo {
+    &.ant-avatar {
+      height: 60px;
+      width: 60px;
+    }
+  }
+
+  &__left {
+    display: flex;
+    flex-flow: row nowrap;
+
+    > div {
+      padding: 6px 12px;
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: flex-start;
+      justify-content: center;
+    }
+  }
+
+  &__title {
+    font-size: 1.08rem;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

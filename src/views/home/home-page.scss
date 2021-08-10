@@ -6,9 +6,9 @@
  */
 
 /* there can define module variables or function */
+
 .home {
   &-container {
-    color: #fff;
+    min-height: calc(100vh - #{$height-diff}px);
   }
 }
-

@@ -5,9 +5,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css t
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer') // help tailwindcss to work
 
-const { R, join, src, dist, pubdir, favicon } = require('../paths')
+const { compactThemeSingle } = require('antd/dist/theme')
+
 const { custThemeVariables } = require('../themes/index')
 const { BaseResolve, imgExtensions } = require('./resolve-helper')
+
+const { R, join, src, dist, pubdir, favicon } = require('../paths')
 
 const devMode = process.env.NODE_ENV === 'development'
 
@@ -92,6 +95,26 @@ module.exports = {
       //   ],
       //   include: /node_modules/,
       // },
+      {
+        test: /antd.*\.less$/,
+        use: [
+          devMode ? 'style-loader' : { loader: MiniCssExtractPlugin.loader },
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+                modifyVars: {
+                  // ...compactThemeSingle,
+                  ...custThemeVariables,
+                },
+              },
+              // javascriptEnabled: true,  // less-loader < 6
+            },
+          },
+        ],
+      },
       // Styles: Inject CSS into the head with source maps
       {
         test: /\.(css|scss|sass)$/,
