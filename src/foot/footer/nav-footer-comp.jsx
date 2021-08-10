@@ -57,9 +57,9 @@ export default class NavFooterComp extends Component {
 
     return (
       <Footer className='nav-footer'>
-        {this.renderLeft()}
+        {/* {this.renderLeft()} */}
         {this.renderContent()}
-        {this.renderRight()}
+        {/* {this.renderRight()} */}
       </Footer>
     )
   }

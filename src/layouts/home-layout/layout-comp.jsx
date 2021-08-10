@@ -12,7 +12,7 @@ import comboRoutes, {
 } from '~Router/routes-cnsts'
 
 import TopHeader from '../top-header'
-import  NavFooter  from '~/foot/footer'
+import NavFooter from '~/foot/footer'
 
 import HomePage from '~Views/home'
 
@@ -57,7 +57,7 @@ export default class LayoutComp extends Component {
     // const { xxx } = this.props
 
     return (
-      <Layout>
+      <Layout className='home-layout'>
         <TopHeader />
         <Content>
           <Switch>

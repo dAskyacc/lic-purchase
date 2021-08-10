@@ -10,5 +10,85 @@
 .home {
   &-container {
     min-height: calc(100vh - #{$height-diff}px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__header {
+    line-height: 10rem;
+
+    h1 {
+      color: #fff;
+      font-size: 6.75rem;
+    }
+  }
+
+  &__content {
+    font-size: 1.85rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+
+    .downlaod-btn {
+      cursor: pointer;
+      padding: 0.5rem 1.5rem;
+      flex: 0 0 45%;
+      border: 1px solid #fff;
+      border-radius: 0.75rem;
+      text-align: justify;
+      background: rgba(0, 0, 0, 0.02);
+      // display: flex;
+      // flex-flow: row nowrap;
+      align-items: center;
+      justify-content: center;
+
+      > span.btn-text {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+      }
+
+      & > span:not(:first-child) {
+        padding-left: 0.4rem;
+      }
+
+      &:focus,
+      &:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  &__bottom {
+    font-size: 1.85rem;
+    padding: 0.5rem 0;
+    padding-top: 1.5rem;
+    .purchase-lic {
+      cursor: pointer;
+      padding: 0.5rem 1.5rem;
+      flex: 0 0 45%;
+      border: 1px solid #fff;
+      border-radius: 0.75rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: center;
+
+      > span.btn-text {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+      }
+
+      &:focus,
+      &:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+    }
   }
 }

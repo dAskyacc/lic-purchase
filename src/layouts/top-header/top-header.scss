@@ -11,11 +11,29 @@
     display: flex;
     flex-flow: row nowrap;
     &.ant-layout-header {
-      background-color: rgba(240, 242, 245, 1);
+      // background-color: rgba(240, 242, 245, 1);
+      background: transparent;
+      color: #fff;
     }
 
     &-menus {
       flex: 1 1 auto;
+    }
+  }
+
+  &-head {
+    &-logo {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      > span:not(:first-child) {
+        padding-left: 0.5rem;
+      }
+    }
+
+    &-network {
+      font-size: 1.5rem;
     }
   }
 }

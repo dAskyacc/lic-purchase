@@ -24,9 +24,11 @@ export default class HeaderComp extends Component {
 
   renderLogo() {
     return (
-      <span className='nav-head-logo'>
+      <div className='nav-head-logo'>
         <Avatar size={40} src={<Image src={Logo} preview={false} />}></Avatar>
-      </span>
+
+        <span className='nav-head-network'>Ropsten</span>
+      </div>
     )
   }
 
@@ -37,7 +39,7 @@ export default class HeaderComp extends Component {
   renderActions() {
     return (
       <div className='nav-head-actions'>
-        <span className='network'>Ropsten</span>
+        <span className='network'>帮助</span>
       </div>
     )
   }

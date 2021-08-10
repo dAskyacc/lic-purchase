@@ -10,6 +10,22 @@
   background: #fff;
 }
 .home {
+  &-layout {
+    &.ant-layout {
+      background: url('~assets/images/bg-phone.jpg');
+      background-size: cover;
+    }
+
+    > main.ant-layout-content {
+      background: transparent;
+    }
+
+    > footer.ant-layout-footer {
+      color: #fff;
+      background: transparent;
+    }
+  }
+
   &-container {
     color: #fff;
   }
