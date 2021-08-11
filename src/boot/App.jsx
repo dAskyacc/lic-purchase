@@ -8,13 +8,20 @@ import configurationStore, { initialState } from '../store'
 
 import Routes from '../router'
 
+import { setChainId } from '~/store/actions/metamask-actions'
+import { startMetaMaskChainChangedListener } from '~Lib/metamask/metamask-events'
+
 const isDevMode = process.env.NODE_ENV === 'development'
 
 export const history = isDevMode ? createHashHistory() : createBrowserHistory()
 const store = configurationStore(initialState, history)
+startMetaMaskChainChangedListener(store, setChainId)
+// console.log('store', store)
 
 class BootApp extends PureComponent {
   state = {}
+
+  componentDidMount() {}
 
   render() {
     return (

@@ -10,6 +10,12 @@ export function getMMChainId() {
     : '0x0'
 }
 
+export function getSelectedAddress() {
+  return window.ethereum && window.ethereum.isMetaMask
+    ? window.ethereum.selectedAddress
+    : ''
+}
+
 /**
  * when user rejected request throw error.
  * @returns always connected address
@@ -37,7 +43,4 @@ export function validEthereum() {
   return window.ethereum
 }
 
-export default {
-  checkMetaMaskEnv,
-  getMMChainId,
-}
+export default checkMetaMaskEnv

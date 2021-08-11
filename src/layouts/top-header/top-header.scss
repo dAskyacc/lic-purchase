@@ -44,7 +44,18 @@
     align-items: flex-start;
     justify-content: center;
 
-    > span {
+    & > .network {
+      color: $success-text-color;
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+
+      &.network-disabled {
+        color: $warn-text-color;
+      }
+    }
+
+    & > .selected-address {
+      font-size: 0.75rem;
       line-height: 1.2rem;
     }
   }

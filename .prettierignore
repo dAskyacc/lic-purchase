@@ -6,4 +6,5 @@ coverage
 .eslintignore
 .DS_Store
 # .eslintrc.js
+*.min.js
 src/**/*.min.js

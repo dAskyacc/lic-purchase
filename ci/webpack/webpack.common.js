@@ -106,7 +106,7 @@ module.exports = {
               lessOptions: {
                 javascriptEnabled: true,
                 modifyVars: {
-                  // ...compactThemeSingle,
+                  ...compactThemeSingle,
                   ...custThemeVariables,
                 },
               },

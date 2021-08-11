@@ -1,6 +1,7 @@
 export const ROOT_PATH = '/'
 
 export const HOME_INDEX_ROOT = '/index'
+export const PURCHASE_PAGE_NESTED = '/purchase'
 export const HOME_PROFILE_ROOT = '/profile'
 export const HOME_USER_ROOT = '/user'
 

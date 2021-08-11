@@ -4,13 +4,17 @@ import {
   SET_SELECTED_ADDRESS,
 } from '../../core-action-types'
 
-import { checkMetaMaskEnv, getMMChainId } from '~Lib/metamask'
+import {
+  checkMetaMaskEnv,
+  getMMChainId,
+  getSelectedAddress,
+} from '~Lib/metamask'
 
 export default function reduceMetaMask(state = {}, { type, val }) {
   const mmState = {
     installed: checkMetaMaskEnv(),
     chainId: getMMChainId(),
-    selectedAddress: '',
+    selectedAddress: getSelectedAddress(),
     ...state,
   }
 

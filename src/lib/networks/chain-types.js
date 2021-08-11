@@ -42,6 +42,17 @@ export const NETWORKS_NAME_MAP = {
   },
 }
 
+export function findNetworkByChainId(chainId) {
+  const nws = Object.values(NETWORKS_NAME_MAP)
 
+  return nws.find(
+    (n) => n.chainId === chainId || parseInt(n.chainId) === parseInt(chainId)
+  )
+}
 
-export default NETWORKS_MAP
+export function findNetworkByNetwork(network) {
+  const nws = NETWORKS_NAME_MAP[network.toLowerCase()]
+  return nws
+}
+
+export default NETWORKS_NAME_MAP

@@ -4,6 +4,11 @@ import { withRouter } from 'react-router-dom'
 
 import HeaderPage from './header-comp'
 
+import { getMMChainId } from '~Lib/metamask'
+import {
+  setChainId,
+  setConnectedAddress,
+} from '~Store/actions/metamask-actions'
 /**
  *
  * @module: top-header
@@ -24,8 +29,17 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    checkMetaMaskEnv: ({ installed, chianId }) => {
+      if (installed) {
+        const chainId = getMMChainId()
+        dispatch(setChainId(chainId))
+        if (ethereum.selectedAddress) {
+          dispatch(setConnectedAddress(ethereum.selectedAddress))
+        }
+      }
+    },
     // doSomeThing:(arg1,arg2) => (dispatch) => {
     //   ...
     //   dispatch(action);

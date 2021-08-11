@@ -3,8 +3,11 @@ import React, { Component } from 'react'
 import { Avatar, Image, Button } from 'antd'
 
 import { Header } from 'antd/lib/layout/layout'
+import { chainSupported, findNetworkByChainId } from '~/lib/networks'
 
 import Logo from '~Assets/icons/logo.png'
+
+import { goHome } from '~Router/index'
 
 export default class HeaderComp extends Component {
   constructor(props) {
@@ -16,7 +19,9 @@ export default class HeaderComp extends Component {
 
   componentDidMount() {
     // there regist something handle.
-    console.log('mmState', this.props.mmState)
+    // console.log('mmState', this.props.mmState)
+    // const { mmState, checkMetaMaskEnv } = this.props
+    // checkMetaMaskEnv(mmState)
   }
 
   componentWillUnmount() {
@@ -24,14 +29,31 @@ export default class HeaderComp extends Component {
   }
 
   renderLogo() {
+    const { location, history } = this.props
     const { installed, chainId, selectedAddress } = this.props.mmState
+
+    const networkEnabled = chainSupported(chainId)
+    const nw = findNetworkByChainId(chainId)
+    const networkFullName = nw ? nw.text : chainId
     return (
       <div className='nav-head-logo'>
-        <Avatar size={40} src={<Image src={Logo} preview={false} />}></Avatar>
+        <Avatar
+          size={40}
+          src={<Image src={Logo} preview={false} />}
+          onClick={() => {
+            goHome(history, location)
+          }}
+        ></Avatar>
 
         {installed ? (
           <div className='nav-metamask-state'>
-            <span className='network'>Ropsten {chainId}</span>
+            <span
+              className={
+                networkEnabled ? 'network' : 'network network-disabled'
+              }
+            >
+              {networkFullName}
+            </span>
             <span className='selected-address'>{selectedAddress}</span>
           </div>
         ) : null}

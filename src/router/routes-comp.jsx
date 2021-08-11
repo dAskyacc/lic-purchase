@@ -27,7 +27,8 @@ export default class RoutesComp extends PureComponent {
           render={() => <Redirect to={HOME_INDEX_ROOT} />}
         ></Route>
         <Route path={PAGE_NESTED_ROOT} component={PageLayout} />
-        <Route path={HOME_INDEX_ROOT} component={HomeLayout} />
+        {/* <Route path={HOME_INDEX_ROOT} component={HomeLayout} /> */}
+        <Route path={ROOT_PATH} component={HomeLayout} />
         {/* <Route path={HOME_SCAN_ROOT} exact component={ScanPage} /> */}
 
         {/* <Route path={HOME_INDEX_ROOT} children={HomeTabRouter}>

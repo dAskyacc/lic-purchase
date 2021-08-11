@@ -8,6 +8,8 @@ import { successToast, infoToast, errorToast } from '~/ui/ant-toast'
 
 import { getConnectedAddress } from '~Lib/metamask'
 
+import { PURCHASE_PAGE_NESTED } from '~Router/routes-cnsts'
+
 export default class HomeComp extends Component {
   constructor(props) {
     super(props)
@@ -20,14 +22,14 @@ export default class HomeComp extends Component {
     // there regist something handle.
     const { mmState } = this.props
 
-    console.log('>>>>>>>>>>>>>>>>>>>>>>componentDidMount>>>>>>>>>>', mmState)
+    // console.log('>>>>>>>>>>>>>>>>>>>>>>componentDidMount>>>>>>>>>>', mmState)
   }
 
   componentWillUnmount() {
     // there unregist something handle.
     const { mmState } = this.props
 
-    console.log('>>>>>>>>>>>>>>componentWillUnmount>>>>>>>>>>>>>>>>>>', mmState)
+    // console.log('>>>>>>>>>>>>>>componentWillUnmount>>>>>>>>>>>>>>>>>>', mmState)
   }
 
   renderHeader() {
@@ -39,16 +41,18 @@ export default class HomeComp extends Component {
   }
 
   testhandle = (name) => {
-    console.log('Name>>>', name, getUUID32Hex())
+    const { location } = this.props
+    console.log('Name>>>', name, location)
   }
 
   connectMetaMask = async () => {
     // successToast('Success')
     // infoToast('info')
-    const { connectMetaMask } = this.props
+    const { toPurchaseLicense, mmState, history } = this.props
     try {
-      const address = await getConnectedAddress()
-      connectMetaMask(address)
+      const res = await toPurchaseLicense(mmState)
+      // console.groupCollapsed('>>>>>>>>>>>>>>>>>>>', res)
+      history.push(PURCHASE_PAGE_NESTED)
     } catch (err) {
       let errMsg = err.message
       if (err.code) {
