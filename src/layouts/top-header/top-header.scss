@@ -36,4 +36,16 @@
       font-size: 1.5rem;
     }
   }
+
+  &-metamask-state {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 4px 0.5rem;
+    align-items: flex-start;
+    justify-content: center;
+
+    > span {
+      line-height: 1.2rem;
+    }
+  }
 }

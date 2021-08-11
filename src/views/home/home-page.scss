@@ -16,11 +16,12 @@
   }
 
   &__header {
-    line-height: 10rem;
+    line-height: 8rem;
 
     h1 {
       color: #fff;
-      font-size: 6.75rem;
+      font-size: 5.75rem;
+      min-width: 650px;
     }
   }
 

@@ -6,12 +6,16 @@
  */
 
 /* there can define module variables or function */
-.nav-footer {
+.nav-foot {
   height: #{$foot-height}px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+
+  & > * :not(:first-child) {
+    margin-left: 0.5rem;
+  }
 
   &-logo {
     &.ant-avatar {
@@ -45,7 +49,28 @@
     flex: 1 1 auto;
     font-size: 0.9rem;
     display: flex;
+    flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+  }
+
+  &-btn {
+    &.ant-btn-text {
+      color: #fff;
+      border: 0px;
+      letter-spacing: 0.2rem;
+      font-size: 0.7rem;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: #fff;
+      }
+
+      &:hover {
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        border-radius: 22px;
+      }
+    }
   }
 }

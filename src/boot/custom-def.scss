@@ -2,3 +2,11 @@ $head-height: 64;
 $foot-height: 100;
 
 $height-diff: $head-height + $foot-height;
+
+/* Toast */
+.toast {
+  > .ant-message-notice-content {
+    min-width: 280px;
+    text-align: left;
+  }
+}

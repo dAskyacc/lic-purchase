@@ -16,6 +16,7 @@ export default class HeaderComp extends Component {
 
   componentDidMount() {
     // there regist something handle.
+    console.log('mmState', this.props.mmState)
   }
 
   componentWillUnmount() {
@@ -23,17 +24,29 @@ export default class HeaderComp extends Component {
   }
 
   renderLogo() {
+    const { installed, chainId, selectedAddress } = this.props.mmState
     return (
       <div className='nav-head-logo'>
         <Avatar size={40} src={<Image src={Logo} preview={false} />}></Avatar>
 
-        <span className='nav-head-network'>Ropsten</span>
+        {installed ? (
+          <div className='nav-metamask-state'>
+            <span className='network'>Ropsten {chainId}</span>
+            <span className='selected-address'>{selectedAddress}</span>
+          </div>
+        ) : null}
       </div>
     )
   }
 
   renderNavMenus() {
-    return <div className='nav-head-menus'></div>
+    const { chainId, selectedAddress } = this.props.mmState
+    return (
+      <div className='nav-head-menus'>
+        {/* <span>{chainId}</span>
+        <span>{selectedAddress}</span> */}
+      </div>
+    )
   }
 
   renderActions() {

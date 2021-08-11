@@ -6,7 +6,7 @@ import HeaderPage from './header-comp'
 
 /**
  *
- * @module: top-header 
+ * @module: top-header
  * @Created:  21-08-10 19:46 Tuesday
  * make state inject into react dom props
  *
@@ -15,10 +15,12 @@ const mapStateToProps = (state) => {
   // global state contains skinState ... ed.
   const {
     skinState: { header },
+    mmState,
   } = state
 
   return {
     header,
+    mmState,
   }
 }
 
