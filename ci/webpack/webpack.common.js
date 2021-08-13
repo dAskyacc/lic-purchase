@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css t
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer') // help tailwindcss to work
 
+// webpack polyfill node
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+
 const { compactThemeSingle } = require('antd/dist/theme')
 
 const { custThemeVariables } = require('../themes/index')
@@ -29,6 +32,11 @@ module.exports = {
 
   resolve: {
     ...BaseResolve,
+    // fallback: {
+    //   https: require.resolve('https-browserify'),
+    //   http: require.resolve('stream-http'),
+    //   os: require.resolve('os-browserify/browser'),
+    // },
   },
 
   // Customize the webpack build process
@@ -36,6 +44,7 @@ module.exports = {
     // Removes/cleans build folders and unused assets when rebuilding
     new CleanWebpackPlugin(),
 
+    new NodePolyfillPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
       chunkFilename: '[id].[contenthash].css',

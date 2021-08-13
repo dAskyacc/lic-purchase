@@ -50,6 +50,17 @@
     span {
       color: #000;
     }
+
+    .balance-label-box {
+      & > span:not(:first-child) {
+        padding-left: 0.5rem;
+      }
+
+      & > span.token-valt {
+        color: crimson;
+      }
+    }
+
     // width: 100%;
     // padding: 1rem 1.5rm;
 
@@ -112,4 +123,10 @@
       font-size: 1rem;
     }
   }
+}
+
+
+
+div.qrcode-wrapper-bottom-action {
+  cursor: pointer;
 }

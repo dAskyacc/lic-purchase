@@ -4,6 +4,9 @@ import './main.scss'
 
 import App from './boot/App'
 import { message } from 'antd'
+import Web3 from 'web3'
+
+window.Web3Utils = Web3.utils
 
 message.config({
   top: 120,

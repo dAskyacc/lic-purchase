@@ -1,6 +1,6 @@
 import { SET_HAS_METAMAK, SET_METAMASK_CHAINID } from '../../core-action-types'
 
-export default function reduceBiz(state = {}, [type, val]) {
+export default function reduceBiz(state = {}, {type, val}) {
   const bizState = {
     metamask: {
       installed: false,

@@ -9,6 +9,10 @@ import { successToast, infoToast, errorToast } from '~/ui/ant-toast'
 import { getConnectedAddress } from '~Lib/metamask'
 
 import { PURCHASE_PAGE_NESTED } from '~Router/routes-cnsts'
+import { getMetaMaskProvider } from '~/lib/metamask/provider'
+import { WEB3_REQUEST_AWAIT } from '~Lib/errors/error-codes'
+
+// import { weiToEther } from '~Lib/web3/utils/token-utils'
 
 export default class HomeComp extends Component {
   constructor(props) {
@@ -40,9 +44,14 @@ export default class HomeComp extends Component {
     )
   }
 
-  testhandle = (name) => {
+  testhandle = async (name) => {
     const { location } = this.props
-    console.log('Name>>>', name, location)
+    try {
+      const provider = await getMetaMaskProvider()
+      console.log('>>>provider>>', provider)
+    } catch (error) {
+      console.log('>>>>>', error)
+    }
   }
 
   connectMetaMask = async () => {
@@ -55,7 +64,10 @@ export default class HomeComp extends Component {
       history.push(PURCHASE_PAGE_NESTED)
     } catch (err) {
       let errMsg = err.message
-      if (err.code) {
+      if (err.code && err.code === WEB3_REQUEST_AWAIT) {
+        errMsg = `请检查MetaMask插件是否有未处理请求,再试.`
+        errMsg += `[${err.code}]`
+      } else if (err.code && err.code !== WEB3_REQUEST_AWAIT) {
         errMsg += `[${err.code}]`
       }
       errorToast(errMsg)
@@ -65,14 +77,12 @@ export default class HomeComp extends Component {
   renderContent() {
     return (
       <div className='home__content'>
-        <div className='downlaod-btn'>
+        <div
+          className='downlaod-btn'
+          onClick={this.testhandle.bind(this, 'ios')}
+        >
           <BraveIcon type='brave-ios' />
-          <span
-            className='btn-text'
-            onClick={this.testhandle.bind(this, 'ios')}
-          >
-            ios
-          </span>
+          <span className='btn-text'>ios</span>
         </div>
         <div className='downlaod-btn'>
           <BraveIcon type='brave-android' />

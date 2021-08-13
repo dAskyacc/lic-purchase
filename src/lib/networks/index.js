@@ -6,6 +6,7 @@ export function chainSupported(chainId) {
   return parseInt(chainId) === parseInt(KOVAN_CHAINID)
 }
 
+
 export function etherscanUrl(options) {
   let config = {
     network: '',
@@ -22,7 +23,6 @@ export function etherscanUrl(options) {
   }
 
   let { network, type, param } = config
-  console.log('>>>>>>>>', network)
   const nw = findNetworkByNetwork(network)
   if (!nw) throw new Error('Etherscan Unspport network [' + network + '].')
 

@@ -43,4 +43,17 @@ export function validEthereum() {
   return window.ethereum
 }
 
-export default checkMetaMaskEnv
+const getEthereumState = () => {
+  let state = {
+    chainId: 0x0,
+    selectedAddress: '',
+  }
+
+  if (window.ethereum && window.ethereum.isMetaMask) {
+    state.chainId = window.ethereum.chainId
+    state.selectedAddress = window.ethereum.selectedAddress
+  }
+  return state
+}
+
+export default getEthereumState
