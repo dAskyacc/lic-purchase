@@ -13,6 +13,7 @@ import { getAcceptedAddress } from '../contracts/addresses'
 
 import { checkGasEnough } from './biz-utils'
 import { TX_FAILED, TX_COMPLETED } from '../web3/tx-helper'
+import { getWeb3Inst } from '../web3'
 
 export async function checkAllowance(
   tokenInst,
@@ -75,6 +76,8 @@ export async function purchaseLicense(
   if (!purchaseDays || purchaseDays < 0)
     throw new TypeError(`purchaseDays ${purchaseDays} illegal.`)
 
+  const acceptedAddress = getAcceptedAddress(chainId)
+
   const randomHexStr = getUUID32Hex()
   const purchaseHash = Web3Utils.keccak256(randomHexStr)
 
@@ -114,15 +117,41 @@ export async function purchaseLicense(
 
   // 签名
   const packData = web3js.eth.abi.encodeParameters(
-    ['address', 'bytes32', 'uint32'],
-    [selectedAddress, purchaseHash, parseInt(purchaseDays)]
+    ['address', 'address', 'bytes32', 'uint32'],
+    [
+      '0x52996249f64d760ac02c6b82866d92b9e7d02f06',
+      selectedAddress,
+      purchaseHash,
+      parseInt(purchaseDays),
+    ]
   )
-  const keccakHex = Web3Utils.keccak256(packData)
+
+  console.log('>>>>>>>>>&&&&>>>', typeof packData, packData)
+  const keccakPack = Web3Utils.keccak256(packData)
+
+  const nPackData = web3js.eth.abi.encodeParameters(
+    ['string', 'bytes32'],
+    ['\x19Ethereum Signed Message:\n32', keccakPack]
+  )
+
+  const keccakHex = Web3Utils.keccak256(nPackData)
+  // console.log('>>>>>>>>>&&&&>>>', keccakHex)
+
+  // const signedData = await web3js.eth.personal.sign(keccakHex, selectedAddress)
 
   const signedData = await web3js.eth.personal.sign(keccakHex, selectedAddress)
 
+  console.log('>>>>>>>signedData&>>>', signedData)
+
+  // signTx
+  const signTxInput = {
+    from: selectedAddress,
+    to: acceptedAddress,
+    data: packData,
+  }
+
   // reload allownce
-  const acceptedAddress = getAcceptedAddress(chainId)
+
   const allowance = await tokenInst.methods
     .allowance(selectedAddress, acceptedAddress)
     .call()
@@ -143,5 +172,65 @@ export async function purchaseLicense(
       purchaseDays,
       signedData,
     },
+  }
+}
+
+export async function signTest(
+  {
+    selectedAddress = '0xFd30d2c32E6A22c2f026225f1cEeA72bFD9De865',
+    purchaseId = '0x5ead50dc103533a2f153308b8245738ec7da2b93fd69e9d8305f21c7bb6dc548',
+    contractAddr = '0x52996249f64d760ac02c6b82866d92b9e7d02f06',
+    purchaseDays = 1,
+    pri = '',
+  },
+  mode = 1
+) {
+  const web3js = await getWeb3Inst()
+
+  if (!pri) throw new Error('miss pri')
+
+  console.log('>>>>>>>>>>>>>>>>>>>>>>Sign Test>>>>>>>>>>>>>>>>>>>>>')
+
+  const paramPack = web3js.eth.abi.encodeParameters(
+    ['address', 'address', 'bytes32', 'uint32'],
+    [contractAddr, selectedAddress, purchaseId, purchaseDays]
+  )
+
+  let paramPackHash = Web3Utils.keccak256(paramPack)
+  console.log('ABI pack param : ', paramPack, paramPackHash)
+
+  const prefixed = '\x19Ethereum Signed Message:\n32'
+
+  const secPack = web3js.eth.abi.encodeParameters(
+    ['string', 'bytes32'],
+    [Web3Utils.utf8ToHex(prefixed), paramPackHash]
+  )
+
+  let secHash = Web3Utils.keccak256(secPack)
+  console.log('Prefixed >>>', secPack, secHash)
+
+  let psig = await web3js.eth.personal.sign(secHash, selectedAddress)
+
+  let asig = await web3js.eth.accounts.sign(paramPackHash, pri)
+
+  let verifyPsig = await web3js.eth.personal.ecRecover(secHash, psig)
+
+  console.log('Personal verify sign : ', secHash, psig, verifyPsig)
+
+  let asigValid = await web3js.eth.accounts.recover(
+    paramPackHash,
+    asig.signature,
+    false
+  )
+  console.log(
+    'Account verify sign : ',
+    paramPackHash,
+    asig.signature,
+    asigValid
+  )
+
+  return {
+    psig,
+    asig,
   }
 }

@@ -34,8 +34,9 @@ import {
   checkAllowance,
   approveAccept,
   purchaseLicense,
+  signTest,
 } from '~Lib/biz/purchase-biz'
-
+window.signTest = signTest
 /**
  *
  * @module: purchase/purchase-page
@@ -125,9 +126,12 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(setConnectedAddress(selectedAddress))
 
         window.web3js = web3js
+
         if (!selectedAddress) {
           selectedAddress = await getConnectedAddress()
         }
+
+        //
 
         const ethBal = await web3js.eth.getBalance(selectedAddress)
         dispatch(setEthBalance(ethBal))
