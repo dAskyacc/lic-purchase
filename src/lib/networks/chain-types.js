@@ -13,6 +13,7 @@ export const ROPSTEN_CHAINID = 0x3
 export const RINKEBY_CHAINID = 0x4
 export const GOERLI_CHAINID = 0x5
 export const KOVAN_CHAINID = 0x2a
+export const BINANCE_SCTEST_CHAINID = 0x61
 
 export const NETWORKS_NAME_MAP = {
   [MAINNET_CHAIN_NAME]: {

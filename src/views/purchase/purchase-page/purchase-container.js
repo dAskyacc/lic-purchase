@@ -34,9 +34,9 @@ import {
   checkAllowance,
   approveAccept,
   purchaseLicense,
-  signTest,
+  packParams,
 } from '~Lib/biz/purchase-biz'
-window.signTest = signTest
+window.packParams = packParams
 /**
  *
  * @module: purchase/purchase-page

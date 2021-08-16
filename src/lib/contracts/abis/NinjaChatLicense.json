@@ -335,7 +335,7 @@
         "name": "token",
         "outputs": [
             {
-                "internalType": "contract IERC20",
+                "internalType": "contract NinjaToken",
                 "name": "",
                 "type": "address"
             }

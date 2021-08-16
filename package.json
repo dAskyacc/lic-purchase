@@ -34,6 +34,7 @@
     "@metamask/detect-provider": "^1.2.0",
     "antd": "^4.16.9",
     "connected-react-router": "^6.9.1",
+    "ethereumjs-abi": "^0.6.8",
     "history": "^5.0.0",
     "http": "^0.0.1-security",
     "lodash": "^4.17.21",

@@ -10,7 +10,7 @@ import ContractNames from './sc-map'
 
 export const kovanAddresses = {
   [ContractNames.TOKEN_SOLNAME]: '0x122938b76c071142ea6b39c34ffc38e5711cada1',
-  [ContractNames.LICENSE_SOLNAME]: '0x52996249f64d760ac02c6b82866d92b9e7d02f06',
+  [ContractNames.LICENSE_SOLNAME]: '0x7B133a9BD10F7AE52fa9528b8Bc0f3c34612674c',
 }
 
 export const mainAddresses = {}
