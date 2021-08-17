@@ -90,7 +90,10 @@ const mapDispatchToProps = (dispatch) => {
       const { chainId, selectedAddress } = await checkCurrentChainState()
       const web3js = await getWeb3Inst()
       const contractAddress = getAcceptedAddress(chainId)
-      if (issueAddress !== selectedAddress)
+      if (
+        !issueAddress ||
+        issueAddress.toLowerCase() !== selectedAddress.toLowerCase()
+      )
         throw new BizError(
           `当前账号与购买时账号不一致,请使用[${issueAddress}]账号签名.`,
           BIZ_SIGNED_ACCOUNT_ERROR
