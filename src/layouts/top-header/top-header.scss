@@ -7,6 +7,14 @@
 
 /* there can define module variables or function */
 .nav {
+  &act {
+    &-menu {
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+    }
+  }
+
   &-head {
     display: flex;
     flex-flow: row nowrap;
@@ -28,12 +36,18 @@
       align-items: center;
 
       > span:not(:first-child) {
-        padding-left: 0.5rem;
+        padding-left: 0.75rem;
       }
     }
 
     &-network {
       font-size: 1.5rem;
+    }
+  }
+
+  &-head-actions {
+    & span:not(:first-child) {
+      margin-left: 0.5rem;
     }
   }
 

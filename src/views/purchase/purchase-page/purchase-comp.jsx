@@ -261,7 +261,16 @@ export default class PurchaseComp extends Component {
     const { purchaseId, purchaseDays, txHash, txStatus, signedData } = lastOrder
     return (
       <>
-        <Divider orientation='left'>License 订单</Divider>
+        <Divider orientation='left'>
+          <BraveIcon
+            type={txStatus === TX_COMPLETED ? 'brave-complete' : 'brave-fail'}
+            style={{
+              marginRight: '0.75rem',
+              color: txStatus === TX_COMPLETED ? 'green' : 'red',
+            }}
+          />
+          License 订单
+        </Divider>
         <div className='purchase-order'>
           <div
             className='purchase-order-title'
@@ -282,16 +291,8 @@ export default class PurchaseComp extends Component {
                     tx: txHash,
                   })}
                 />
-                <BraveIcon
-                  type={
-                    txStatus === TX_COMPLETED ? 'brave-complete' : 'brave-fail'
-                  }
-                  style={{
-                    marginLeft: '1rem',
-                    color: txStatus === TX_COMPLETED ? 'green' : 'red',
-                  }}
-                />
               </span>
+
               <span className='purchase-id'>{compressAddress(purchaseId)}</span>
               <span className='purchase-days' data-label='购买天数'>
                 {purchaseDays}

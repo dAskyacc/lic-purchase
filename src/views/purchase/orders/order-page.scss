@@ -1,0 +1,32 @@
+/**
+ * 21-08-17 16:08 Tuesday 
+ * This file used define the module purchase/orders styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './purchase/orders/order-page.scss';
+ */
+
+/* there can define module variables or function */
+.order {
+  &-container {
+    min-height: calc(100vh - #{$height-diff}px);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    & > .inner-box {
+      padding: 0.5rem;
+      width: 70%;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 0.8rem;
+    }
+  }
+
+  &-head {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

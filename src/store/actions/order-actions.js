@@ -1,4 +1,4 @@
-import { SET_LAST_ORDER_STATUS } from '../core-action-types'
+import { SET_LAST_ORDER_STATUS, UPD_ORDER_LIST } from '../core-action-types'
 
 export const updateLastPurchaseOrder = (
   purchaseId,
@@ -29,5 +29,12 @@ export const resetLastPurchaseOrder = () => {
       txStatus: '',
       signedData: '',
     },
+  }
+}
+
+export const updateOrderList = (list = []) => {
+  return {
+    type: UPD_ORDER_LIST,
+    val: list,
   }
 }

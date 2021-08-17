@@ -5,7 +5,10 @@
 import Web3Utils from 'web3-utils'
 
 import BizError from '../errors'
-import { BIZ_ERROR_CODE } from '../errors/error-codes'
+import ERR_MSG_MAP, {
+  BIZ_ERROR_CODE,
+  UNSUPPORT_NETWORK,
+} from '../errors/error-codes'
 import { DEFAULT_ALLOWANCE_COIN, getNCCTokenInst } from '../web3/apis/token-api'
 import { getChatLicenseSCInst } from '../web3/apis/chat-license-api'
 import { getUUID32Hex } from '../utils/random-utils'
@@ -13,11 +16,11 @@ import { getAcceptedAddress } from '../contracts/addresses'
 
 import { checkGasEnough } from './biz-utils'
 import { TX_FAILED, TX_COMPLETED } from '../web3/tx-helper'
-import { getWeb3Inst } from '../web3'
 import { intToByteArray } from './biz-utils'
 import bs58 from 'bs58'
 
 import ABI from 'ethereumjs-abi'
+import { chainSupported } from '../networks'
 window.ABI = ABI
 window.Web3Utils = Web3Utils
 export async function checkAllowance(
@@ -136,7 +139,7 @@ export async function purchaseLicense(
 
   const signedData = await web3js.eth.personal.sign(keccakPack, selectedAddress)
 
-  console.log('>>>>>>>signedData&>>>', signedData)
+  // console.log('>>>>>>>signedData&>>>', signedData)
 
   const combo58 = compressLicense({
     issueAddr: selectedAddress,
@@ -194,7 +197,7 @@ export const compressLicense = ({
 
   let fullhex = `0x${issuehex}${ridhex}${dayhex}${sighex}`
 
-  console.log('>>>>>>>>>>>>', fullhex)
+  // console.log('>>>>>>>>>>>>', fullhex)
   const res = bs58.encode(Web3Utils.hexToBytes(fullhex))
 
   return res
@@ -219,4 +222,79 @@ export function packParams(
     ['address', 'address', 'bytes32', 'uint'],
     [contractAddress, issueAddr, purchaseId, purchaseDays]
   )
+}
+/**
+ *
+ * @param {Object} web3js
+ * @param {String} selectedAddress required
+ * @param {Object} params
+ * @property contractAddress required
+ * @property purchaseId required
+ * @property purchaseDays required
+ * @property issueAddress optional (default equal selectedAddress )
+ *
+ */
+export async function signedLicense(web3js, selectedAddress, params = {}) {
+  const { contractAddress, issueAddress, purchaseId, purchaseDays } = params
+  if (
+    !web3js ||
+    !contractAddress ||
+    !selectedAddress ||
+    !purchaseId ||
+    purchaseDays <= 0
+  )
+    throw new TypeError('parameters illegal.')
+
+  const packData = packParams(web3js, {
+    contractAddress,
+    issueAddr: issueAddress || selectedAddress,
+    purchaseId,
+    purchaseDays,
+  })
+
+  const keccakPack = Web3Utils.keccak256(packData)
+  const signedData = await web3js.eth.personal.sign(keccakPack, selectedAddress)
+  const combo58 = compressLicense({
+    issueAddr: issueAddress || selectedAddress,
+    purchaseId,
+    purchaseDays,
+    signature: signedData,
+  })
+  // console.log('signedLicense>>>>>>>>>>>>', purchaseId, combo58)
+  const orderParts = {
+    contractAddress,
+    purchaseId,
+    issueAddress: issueAddress || selectedAddress,
+    purchaseDays,
+    signature58: combo58,
+  }
+
+  return orderParts
+}
+
+export async function getCompleteOrders(licInst, { selectedAddress, chainId }) {
+  if (!licInst || !selectedAddress) throw new TypeError('Parameter illegal.')
+  if (!chainSupported(chainId))
+    throw new BizError(ERR_MSG_MAP[UNSUPPORT_NETWORK], UNSUPPORT_NETWORK)
+
+  const pevts = await licInst.getPastEvents('GenerateLicenseEvent', {
+    filter: {
+      issueAddr: [selectedAddress],
+    },
+    fromBlock: 0,
+    toBlock: 'latest',
+  })
+
+  return pevts.map((e) => {
+    let r = {
+      blockNumber: e.blockNumber,
+      txStatus: TX_COMPLETED,
+      signature58: '',
+      txHash: e.transactionHash,
+      purchaseId: e.returnValues.id,
+      issueAddress: e.returnValues.issueAddr,
+      purchaseDays: parseInt(e.returnValues.nDays),
+    }
+    return r
+  })
 }

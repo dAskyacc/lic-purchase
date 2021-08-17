@@ -16,5 +16,6 @@ export const SET_TOKEN_ALLOWANCE = 'web3@token/set_token_allowance'
 export const UPD_TOKEN_NEED_APPROVE = 'web3@token/update_need_approve'
 /** Tx Order */
 export const SET_LAST_ORDER_STATUS = 'biz@order/set_last_order_status'
+export const UPD_ORDER_LIST = 'biz@order/upd_order_list'
 
 export const SET_LAST_TX_STATUS = 'web3@chain/set_last_txstatus'

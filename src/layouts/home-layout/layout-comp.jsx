@@ -7,7 +7,7 @@ import BraveIcon from '~UI/brave-icon'
 
 import comboRoutes, {
   HOME_INDEX_ROOT,
-  ERROR_PAGE_ROOT,
+  ORDERS_PAGE_NESTED,
   ERROR_404_NESTED,
   PURCHASE_PAGE_NESTED,
 } from '~Router/routes-cnsts'
@@ -19,6 +19,7 @@ import HomePage from '~Views/home'
 
 import { UnfoundPage } from '~/errors/unfound-404'
 import PurchasePage from '~Views/purchase/purchase-page'
+import OrderIndexPage from '~Views/purchase/orders'
 
 const { Content } = Layout
 
@@ -66,6 +67,7 @@ export default class LayoutComp extends Component {
             <Route path={HOME_INDEX_ROOT} component={HomePage} exact />
 
             <Route path={PURCHASE_PAGE_NESTED} component={PurchasePage} exact />
+            <Route path={ORDERS_PAGE_NESTED} component={OrderIndexPage} exact />
             <Route path={ERROR_404_NESTED} component={UnfoundPage} />
           </Switch>
         </Content>

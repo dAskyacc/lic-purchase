@@ -6,6 +6,7 @@ import { Header } from 'antd/lib/layout/layout'
 import { chainSupported, findNetworkByChainId } from '~/lib/networks'
 
 import Logo from '~Assets/icons/logo.png'
+import { ORDERS_PAGE_NESTED } from '~Router/routes-cnsts'
 
 import { goHome } from '~Router/index'
 
@@ -71,10 +72,32 @@ export default class HeaderComp extends Component {
     )
   }
 
+  gotoPage = (path) => {
+    const { location, history, mmState } = this.props
+    // console.log('>>>>>>>>>>>>>>>', path, location, mmState)
+    if (
+      location.pathname !== path &&
+      history &&
+      chainSupported(mmState.chainId)
+    ) {
+      history.push(path)
+    }
+  }
+
   renderActions() {
+    const { chainId } = this.props.mmState
+    const networkEnabled = chainSupported(chainId)
     return (
       <div className='nav-head-actions'>
-        <span className='network'>帮助</span>
+        {networkEnabled ? (
+          <span
+            className='navact-menu'
+            onClick={this.gotoPage.bind(this, ORDERS_PAGE_NESTED)}
+          >
+            订单
+          </span>
+        ) : null}
+        <span className='navact-menu network'>帮助</span>
       </div>
     )
   }

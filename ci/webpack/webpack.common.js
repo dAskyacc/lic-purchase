@@ -24,6 +24,7 @@ module.exports = {
   // Where webpack looks to start building the bundle
   entry: {
     main: R(src, 'index.js'),
+    // order: R(src, 'orders', 'index.js'),
   },
 
   // Where webpack outputs the assets and bundles
@@ -91,6 +92,13 @@ module.exports = {
       template: join(pubdir, 'index.html'), // template file
       filename: 'index.html', // output file
     }),
+    // new HtmlWebpackPlugin({
+    //   title: 'Orders',
+    //   favicon: favicon,
+    //   template: join(pubdir, 'orders.html'), // template file
+    //   filename: 'orders.html', // output file
+    //   chunks: ['main', 'order'],
+    // }),
   ],
 
   // Determine how modules within the project are treated
