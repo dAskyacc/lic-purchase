@@ -14,6 +14,8 @@ import { getAcceptedAddress } from '../contracts/addresses'
 import { checkGasEnough } from './biz-utils'
 import { TX_FAILED, TX_COMPLETED } from '../web3/tx-helper'
 import { getWeb3Inst } from '../web3'
+import { intToByteArray } from './biz-utils'
+import bs58 from 'bs58'
 
 import ABI from 'ethereumjs-abi'
 window.ABI = ABI
@@ -115,7 +117,7 @@ export async function purchaseLicense(
     .GenerateLicense(purchaseHash, purchaseDays)
     .send({ from: selectedAddress, gas: gas.toString() })
 
-  console.log('>>>>>>>>>>>>', receiptTx)
+  // console.log('>>>>>>>>>>>>', receiptTx)
   const txHash = receiptTx.transactionHash
 
   // 签名
@@ -128,13 +130,20 @@ export async function purchaseLicense(
   const packData = packParams(web3js, signParams)
 
   const keccakPack = Web3Utils.keccak256(packData)
-  console.log('>>>>>>>>>&&&&>>>', signParams, packData, keccakPack)
+  // console.log('>>>>>>>>>&&&&>>>', signParams, packData, keccakPack)
 
   // const signedData = await web3js.eth.personal.sign(keccakHex, selectedAddress)
 
   const signedData = await web3js.eth.personal.sign(keccakPack, selectedAddress)
 
   console.log('>>>>>>>signedData&>>>', signedData)
+
+  const combo58 = compressLicense({
+    issueAddr: selectedAddress,
+    purchaseId: purchaseHash,
+    purchaseDays,
+    signature: signedData,
+  })
 
   // signTx
   const signTxInput = {
@@ -163,11 +172,35 @@ export async function purchaseLicense(
       txHash,
       txStatus: receiptTx.status ? TX_COMPLETED : TX_FAILED,
       purchaseDays,
-      signedData,
+      signedData: combo58,
     },
   }
 }
 
+export const compressLicense = ({
+  issueAddr,
+  purchaseId,
+  purchaseDays,
+  signature,
+}) => {
+  if (!issueAddr || !purchaseId || purchaseDays <= 0 || !signature)
+    throw new TypeError('Parameter illegal.')
+
+  let issuehex = issueAddr.startsWith('0x') ? issueAddr.slice(2) : issueAddr
+  let ridhex = purchaseId.startsWith('0x') ? purchaseId.slice(2) : purchaseId
+
+  let dayhex = Web3Utils.bytesToHex(intToByteArray(purchaseDays)).slice('2')
+  let sighex = signature.startsWith('0x') ? signature.slice(2) : signature
+
+  let fullhex = `0x${issuehex}${ridhex}${dayhex}${sighex}`
+
+  console.log('>>>>>>>>>>>>', fullhex)
+  const res = bs58.encode(Web3Utils.hexToBytes(fullhex))
+
+  return res
+}
+
+window.exportCombox = compressLicense
 
 export function packParams(
   web3js,

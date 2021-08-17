@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css to files
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer') // help tailwindcss to work
+const webpack = require('webpack')
 
 // webpack polyfill node
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
@@ -16,6 +17,8 @@ const { BaseResolve, imgExtensions } = require('./resolve-helper')
 const { R, join, src, dist, pubdir, favicon } = require('../paths')
 
 const devMode = process.env.NODE_ENV === 'development'
+
+const ejectPlugins = require('./eject-env-plugins')
 
 module.exports = {
   // Where webpack looks to start building the bundle
@@ -43,7 +46,11 @@ module.exports = {
   plugins: [
     // Removes/cleans build folders and unused assets when rebuilding
     new CleanWebpackPlugin(),
-
+    ...ejectPlugins,
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer'],
+    }),
     new NodePolyfillPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
@@ -53,6 +60,10 @@ module.exports = {
     // Copies files from target to destination folder
     new CopyWebpackPlugin({
       patterns: [
+        {
+          from: R(pubdir, '404.html'),
+          to: dist,
+        },
         {
           from: R(pubdir, 'js'),
           to: 'js',

@@ -14,3 +14,15 @@ export const checkGasEnough = (ethWei = '0', gas, gasPrice = '1000000000') => {
 
   return gasFee
 }
+
+export const intToByteArray = (n) => {
+  let byteArray = [0, 0, 0, 0]
+
+  for (let index = 0; index < byteArray.length; index++) {
+    var byte = n & 0xff
+    byteArray[index] = byte
+    n = (n - byte) / 256
+  }
+
+  return byteArray.reverse()
+}

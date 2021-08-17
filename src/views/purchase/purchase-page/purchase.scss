@@ -80,7 +80,8 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex: 1 1 auto;
 
     .purchase-tx {
       overflow: hidden;
@@ -88,7 +89,7 @@
       word-break: break-all;
 
       &::before {
-        content: 'Transaction Hash:';
+        content: '交易哈希:';
         padding-right: 0.5rem;
         color: rgba(#000, 0.65);
       }
@@ -100,9 +101,36 @@
       word-break: break-all;
 
       &::before {
-        content: 'Purchase Id:';
+        content: '订单ID:';
         padding-right: 0.5rem;
         color: rgba(#000, 0.65);
+      }
+    }
+
+    .purchase-days {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+
+      &::before {
+        content: '购买天数:';
+        padding-right: 0.5rem;
+        color: rgba(#000, 0.65);
+      }
+
+      &::after {
+        content: '(天)';
+        padding-left: 0.5rem;
+        color: rgba(#000, 0.65);
+      }
+    }
+
+    .purchase-sig {
+      padding: 0.25rem 0.5rem 0.25rem 0;
+      p {
+        overflow: hidden;
+        // text-overflow: ellipsis;
+        word-break: break-all;
       }
     }
 
@@ -110,10 +138,34 @@
       flex: 1 1 auto;
       display: flex;
       flex-flow: column nowrap;
+      justify-content: space-between;
+      // border: 1px solid greenyellow;
+      > div {
+        width: 100%;
+        flex: 0;
+      }
+
+      > div.title-content {
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex: 1 1 auto;
+      }
+
+      > div.title-action {
+        display: flex;
+        justify-content: space-evenly;
+      }
     }
 
     &-action {
       flex: 0 0 auto;
+      display: flex;
+      flex-flow: row nowrap;
+      // border: 1px solid red;
+      align-items: center;
     }
 
     &-icon {
@@ -125,8 +177,14 @@
   }
 }
 
-
-
-div.qrcode-wrapper-bottom-action {
+a.qrcode-wrapper-bottom-action {
   cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+span.sbrave-label {
+  color: red;
+  &::before {
+    content: attr('data-label');
+  }
 }

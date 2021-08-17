@@ -14,6 +14,9 @@ const BaseResolve = {
     '~UI': R(src, 'ui'),
     '~Views': R(src, 'views'),
     '~Widgets': R(src, 'ui/widgets'),
+    process: 'process/browser',
+    stream: 'stream-browserify',
+    zlib: 'browserify-zlib',
   },
   extensions: jsExtensions.map((t) => `.${t}`),
 }

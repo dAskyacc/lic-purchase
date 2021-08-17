@@ -9,6 +9,7 @@ import {
   Row,
   Col,
   Divider,
+  Space,
   Popconfirm,
   Tooltip,
 } from 'antd'
@@ -22,6 +23,7 @@ import BraveIcon from '~UI/brave-icon'
 import { HOME_INDEX_ROOT } from '~/router/routes-cnsts'
 import { TX_COMPLETED } from '~/lib/web3/tx-helper'
 import { successToast, infoToast, errorToast } from '~/ui/ant-toast'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const formLayout = {
   labelCol: { span: 6 },
@@ -32,6 +34,7 @@ export default class PurchaseComp extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      qrsize: 200,
       loading: false,
       unitPrice: 1,
       purchaseId: '',
@@ -40,15 +43,7 @@ export default class PurchaseComp extends Component {
       selectPeroid: 30,
       purchaseDays: 30,
       totalFee: 30,
-
-      qrText:
-        '今天繼續使用erc20標準規範按一篇網絡博文的教程進行親自敲打代碼來寫一個可以發行token的智能合約。今天只好另找一個功能更完備的智能合約來進行學習和部署，' +
-        '合約部署成功，但不知爲何調用合約中的函數方法失敗。學習共用時53分鐘今天繼續使用erc20標準規範按一篇網絡博文的教程進行親自敲打代碼來寫一個可以發行token的智能合約。' +
-        '今天只好另找一個功能更完備的智能合約來進行學習和部署，合約部署成功，但不知爲何調用合約中的函數方法失敗。學習共用時53分鐘今天繼續使用erc20標準規範按一篇網絡博文' +
-        '的教程進行親自敲打代碼來寫一個可以發行token的智能合約。今天只好另找一個功能更完備的智能合約來進行學習和部署，合約部署成功，但不知爲何調用合約中的函數方法失敗。' +
-        '學習共用時53分鐘今天繼續使用erc20標準規範按一篇網絡博文的教程進行親自敲打代碼來寫一個可以發行token的智能合約。今天只好另找一個功能更完備的智能合約來進行學習' +
-        '和部署，合約部署成功，但不知爲何調用合約中的函數方法失敗。學習共用時53分鐘今天繼續使用erc20標準規範按一篇網絡博文的教程進行親自敲打代碼來寫一個可以發行token' +
-        '的智能合約。今天只好另找一個功能更完備的智能合約來進行學習和部署，合約部署成功，但不知爲何調用合約中的函數方法失敗。學習共用時53分鐘',
+      copiedTip: '',
       formLayout: {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 },
@@ -179,9 +174,9 @@ export default class PurchaseComp extends Component {
               <span className='token-unit'>ETH</span>
             </div>
           </Form.Item>
-          <Form.Item label='订单ID' wrapperCol={{ span: 16 }}>
+          {/* <Form.Item label='订单ID' wrapperCol={{ span: 16 }}>
             <span className='purchase-uuid'>{this.state.purchaseId}</span>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item name='selectPeroid' label='选择订购周期'>
             <Select placeholder='请选择'>
@@ -263,35 +258,121 @@ export default class PurchaseComp extends Component {
   renderOrder() {
     const { openKovanEtherscanTab, lastOrder } = this.props
 
-    const { purchaseId, purchaseDays, txHash, txStatus } = lastOrder
+    const { purchaseId, purchaseDays, txHash, txStatus, signedData } = lastOrder
     return (
       <>
         <Divider orientation='left'>License 订单</Divider>
         <div className='purchase-order'>
-          <div className='purchase-order-title'>
-            <span className='purchase-tx'>
-              {compressAddress(txHash)}
-              <BraveIcon
-                type='brave-link'
-                style={{
-                  paddingLeft: '1rem',
-                  color: 'blue',
-                  cursor: 'pointer',
-                }}
-                onClick={openKovanEtherscanTab.bind(this, {
-                  loading: this.state.loading,
-                  tx: txHash,
-                })}
-              />
-            </span>
-            <span className='purchase-id'>{compressAddress(purchaseId)}</span>
+          <div
+            className='purchase-order-title'
+            style={{ height: `${this.state.qrsize}px` }}
+          >
+            <div className='title-content'>
+              <span className='purchase-tx'>
+                {compressAddress(txHash)}
+                <BraveIcon
+                  type='brave-link'
+                  style={{
+                    paddingLeft: '1rem',
+                    color: 'blue',
+                    cursor: 'pointer',
+                  }}
+                  onClick={openKovanEtherscanTab.bind(this, {
+                    loading: this.state.loading,
+                    tx: txHash,
+                  })}
+                />
+                <BraveIcon
+                  type={
+                    txStatus === TX_COMPLETED ? 'brave-complete' : 'brave-fail'
+                  }
+                  style={{
+                    marginLeft: '1rem',
+                    color: txStatus === TX_COMPLETED ? 'green' : 'red',
+                  }}
+                />
+              </span>
+              <span className='purchase-id'>{compressAddress(purchaseId)}</span>
+              <span className='purchase-days' data-label='购买天数'>
+                {purchaseDays}
+              </span>
+              <span>签名:</span>
+              <span className='purchase-sig'>
+                <p>{signedData}</p>
+              </span>
+            </div>
+
+            <div className='title-action'>
+              {txStatus === TX_COMPLETED
+                ? this.renderOrderButtions({ signedData, purchaseId })
+                : null}
+            </div>
           </div>
+
           <div className='purchase-order-action'>
-            <span className='text'>Success</span>
-            {txStatus === TX_COMPLETED ? this.renderLastOrderDownload() : null}
+            {txStatus === TX_COMPLETED ? this.renderQRcode() : null}
           </div>
         </div>
       </>
+    )
+  }
+
+  renderOrderButtions({ purchaseId, signedData }) {
+    return (
+      <Space className='purchase-order-action'>
+        <a
+          type='link'
+          id='downLinkID'
+          style={{ color: '#000', textAlign: 'center' }}
+          className='ant-btn ant-btn-lg qrcode-wrapper-bottom-action'
+          onClick={this.downloadQrcode.bind(
+            this,
+            'lastOrderQrCode',
+            purchaseId
+          )}
+        >
+          <BraveIcon
+            type='brave-download'
+            className='purchase-order-icon'
+            style={{ cursor: 'pointer' }}
+          />
+          <span>下载到本地</span>
+        </a>
+        <CopyToClipboard
+          text={signedData}
+          onCopy={() => {
+            this.setState({ copiedTip: 'Copied.' })
+
+            setTimeout(() => {
+              this.setState({ copiedTip: '' })
+            }, 5000)
+          }}
+        >
+          <Button
+            size='large'
+            block
+            icon={<BraveIcon type='brave-copy' style={{ color: '#000' }} />}
+          >
+            复制签名串
+          </Button>
+        </CopyToClipboard>
+        <span style={{ color: 'red' }}>{this.state.copiedTip}</span>
+      </Space>
+    )
+  }
+
+  renderQRcode() {
+    const { openKovanEtherscanTab, lastOrder } = this.props
+
+    const { purchaseId, purchaseDays, txHash, txStatus, signedData } = lastOrder
+    return (
+      <div className='qrcode-box'>
+        <QRCode
+          id='lastOrderQrCode'
+          value={signedData ? signedData.toString() : ''}
+          size={this.state.qrsize}
+        />
+      </div>
     )
   }
 
@@ -299,7 +380,6 @@ export default class PurchaseComp extends Component {
     const { lastOrder = {} } = this.props
     const { txStatus, txHash, purchaseId, signedData } = lastOrder
 
-    const qrTxt = JSON.stringify(lastOrder)
     return (
       <Tooltip
         defaultVisible={false}
@@ -312,7 +392,7 @@ export default class PurchaseComp extends Component {
             <QRCode
               id='lastOrderQrCode'
               value={signedData ? signedData.toString() : ''}
-              size={200}
+              size={this.state.qrsize}
             />
             <div style={{ textAlign: 'center' }}>
               <a

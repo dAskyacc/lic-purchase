@@ -191,7 +191,7 @@ const mapDispatchToProps = (dispatch) => {
           purchaseDays,
         })
 
-      console.log('>>>>>>>>>Order>>>>>>', order)
+      // console.log('>>>>>>>>>Order>>>>>>', order)
       dispatch(setTokenAllowance(selectedAddress, allowance))
       dispatch(updateNeedApprove(needApprove))
 
