@@ -24,6 +24,7 @@ import { HOME_INDEX_ROOT } from '~/router/routes-cnsts'
 import { TX_COMPLETED } from '~/lib/web3/tx-helper'
 import { successToast, infoToast, errorToast } from '~/ui/ant-toast'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { isMobile } from 'react-device-detect'
 
 const formLayout = {
   labelCol: { span: 6 },
@@ -268,7 +269,7 @@ export default class PurchaseComp extends Component {
   }
 
   renderOrder() {
-    const { openKovanEtherscanTab, lastOrder } = this.props
+    const { openKovanEtherscanTab, lastOrder, isMobile } = this.props
 
     const { purchaseId, purchaseDays, txHash, txStatus, signedData } = lastOrder
     return (
@@ -286,7 +287,7 @@ export default class PurchaseComp extends Component {
         <div className='purchase-order'>
           <div
             className='purchase-order-title'
-            style={{ minHeight: `${this.state.qrsize}px` }}
+            style={isMobile ? {} : { minHeight: `${this.state.qrsize}px` }}
           >
             <div className='title-content'>
               <span className='purchase-tx'>
@@ -331,46 +332,45 @@ export default class PurchaseComp extends Component {
   }
 
   renderOrderButtions({ purchaseId, signedData }) {
+    const { isMobile } = this.props
     return (
-      <Space className='purchase-order-action'>
-        <a
-          type='link'
-          id='downLinkID'
-          style={{ color: '#000', textAlign: 'center' }}
-          className='ant-btn ant-btn-lg qrcode-wrapper-bottom-action'
-          onClick={this.downloadQrcode.bind(
-            this,
-            'lastOrderQrCode',
-            purchaseId
-          )}
-        >
-          <BraveIcon
-            type='brave-download'
-            className='purchase-order-icon'
-            style={{ cursor: 'pointer' }}
-          />
-          <span>下载到本地</span>
-        </a>
+      <div className='purchase-order-action'>
+        {isMobile && (
+          <a
+            type='link'
+            id='downLinkID'
+            style={{ color: '#000', textAlign: 'center' }}
+            className='ant-btn ant-btn-lg qrcode-btn'
+            onClick={this.downloadQrcode.bind(
+              this,
+              'lastOrderQrCode',
+              purchaseId
+            )}
+          >
+            <BraveIcon
+              type='brave-download'
+              className='purchase-order-icon'
+              style={{ cursor: 'pointer' }}
+            />
+            <span>下载到本地</span>
+          </a>
+        )}
+
         <CopyToClipboard
           text={signedData}
           onCopy={() => {
-            this.setState({ copiedTip: 'Copied.' })
-
-            setTimeout(() => {
-              this.setState({ copiedTip: '' })
-            }, 5000)
+            infoToast('已复制到剪切板', 2)
           }}
         >
           <Button
             size='large'
-            block
             icon={<BraveIcon type='brave-copy' style={{ color: '#000' }} />}
           >
             复制签名串
           </Button>
         </CopyToClipboard>
         <span style={{ color: 'red' }}>{this.state.copiedTip}</span>
-      </Space>
+      </div>
     )
   }
 
