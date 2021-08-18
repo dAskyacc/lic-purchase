@@ -1,7 +1,7 @@
 import bs58 from 'bs58'
 import { hexToUtf8, bytesToHex, fromUtf8, hexToBytes } from 'web3-utils'
 
-export async function transOrders(selectedAddress, orderList = []) {
+export async function transOrders(selectedAddress, orderList = [], updOrder) {
   if (!selectedAddress) throw new TypeError('selectedAddress miss.')
   if (!localStorage) {
     console.log('unspport localstorage, ignore signed data load.')
@@ -35,6 +35,15 @@ export async function transOrders(selectedAddress, orderList = []) {
       })
     }
 
+    if (updOrder && updOrder.purchaseId && updOrder.signature58) {
+      const idx = _orders.findIndex((o) => o.purchaseId === updOrder.purchaseId)
+      if (idx >= 0) {
+        const _updOrder = { ..._orders[idx], signature58: updOrder.signature58 }
+
+        _orders.splice(idx, 1, _updOrder)
+      }
+    }
+
     const newSerail58str = serializeOrdersTo58(_orders)
     // update local
     localStorage.setItem(k, newSerail58str)
@@ -42,6 +51,7 @@ export async function transOrders(selectedAddress, orderList = []) {
     console.log('locale middle ware error', err)
   }
 
+  // console.log('>>>>>>>>>>>', _orders)
   return _orders
 }
 
@@ -62,7 +72,7 @@ export async function updOrderSignature58(
         ...orderList[idx],
         signature58,
       }
-      _orders = orderList.splice(idx, 1, updOrder)
+      orderList.splice(idx, 1, updOrder)
     }
     return _orders
   }

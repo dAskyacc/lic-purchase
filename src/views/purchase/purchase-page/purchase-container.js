@@ -20,7 +20,10 @@ import {
   setChainId,
 } from '~Store/actions/metamask-actions'
 
-import { updateLastPurchaseOrder } from '~Store/actions/order-actions'
+import {
+  updateLastPurchaseOrder,
+  updateOrderList,
+} from '~Store/actions/order-actions'
 
 import { weiToEtherFixed } from '~/lib/web3/utils/token-utils'
 
@@ -29,12 +32,14 @@ import { getChatLicenseSCInst } from '~Lib/web3/apis/chat-license-api'
 
 import { validateTx } from '~Lib/web3/tx-helper'
 import { getAcceptedAddress } from '~Lib/contracts/addresses'
+import { transOrders } from '~Lib/biz/localstorage-middleware'
 
 import {
   checkAllowance,
   approveAccept,
   purchaseLicense,
   packParams,
+  getCompleteOrders,
 } from '~Lib/biz/purchase-biz'
 window.packParams = packParams
 /**
@@ -178,6 +183,34 @@ const mapDispatchToProps = (dispatch) => {
       } catch (err) {
         console.error(err)
         throw new Error('授权失败')
+      }
+    },
+    silentReloadOrders: async ({ purchaseId, signature58 }) => {
+      try {
+        const { chainId, selectedAddress } = await checkCurrentChainState()
+        const web3js = await getWeb3Inst()
+
+        const inst = await getChatLicenseSCInst(
+          web3js,
+          chainId,
+          selectedAddress
+        )
+
+        let orderList = await getCompleteOrders(inst, {
+          selectedAddress,
+          chainId,
+        })
+
+        orderList = await transOrders(selectedAddress, orderList, {
+          purchaseId,
+          signature58,
+        })
+
+        dispatch(updateOrderList(orderList))
+
+        return { purchaseId, signature58 }
+      } catch (error) {
+        console.warn(error)
       }
     },
     purchaseLicSubmit: async ({ purchaseDays }) => {

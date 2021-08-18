@@ -1,6 +1,6 @@
 {
   "name": "ninja-lic-dapp",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "license management dapp",
   "main": "ci/index.js",
   "scripts": {

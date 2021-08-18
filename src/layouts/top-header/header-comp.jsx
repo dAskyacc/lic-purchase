@@ -97,7 +97,7 @@ export default class HeaderComp extends Component {
             订单
           </span>
         ) : null}
-        <span className='navact-menu network'>帮助</span>
+        {/* <span className='navact-menu network'>帮助</span> */}
       </div>
     )
   }

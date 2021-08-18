@@ -92,21 +92,30 @@ export default class PurchaseComp extends Component {
     if (recheckAllowance) {
       recheckAllowance({ selectedAddress, requiredDays: totalFee }).then(
         (resp) => {
-          console.log('>>>>>>>>>resp>>>>>>', resp)
+          // console.log('>>>>>>>>>resp>>>>>>', resp)
         }
       )
     }
   }
 
   submitHandle = async () => {
-    const { purchaseLicSubmit } = this.props
+    const { purchaseLicSubmit, silentReloadOrders } = this.props
     try {
       const form = this.formRef.current
       const purchaseDays = form.getFieldValue('purchaseDays')
 
       this.setState({ loading: true })
-      const { purchaseId } = await purchaseLicSubmit({ purchaseDays })
+      const { purchaseId, signedData } = await purchaseLicSubmit({
+        purchaseDays,
+      })
       this.setState({ purchaseId, loading: false })
+
+      if (purchaseId && signedData)
+        silentReloadOrders({ purchaseId, signature58: signedData })
+          .then((res) => {
+            console.log('reload orders success', res)
+          })
+          .catch((error) => console.log('reload fail', error))
     } catch (err) {
       console.log('submiit error:', err)
       this.setState({ loading: false })

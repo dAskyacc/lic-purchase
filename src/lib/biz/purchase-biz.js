@@ -277,6 +277,23 @@ export async function getCompleteOrders(licInst, { selectedAddress, chainId }) {
   if (!chainSupported(chainId))
     throw new BizError(ERR_MSG_MAP[UNSUPPORT_NETWORK], UNSUPPORT_NETWORK)
 
+  const bindedEvts = await licInst.getPastEvents('BindLicenseEvent', {
+    filter: {
+      issueAddr: [selectedAddress],
+    },
+    fromBlock: 0,
+    toBlock: 'latest',
+  })
+
+  let bindedMap = {}
+
+  // console.log('>>>>>>>>bindedEvts>>>>>>', bindedEvts)
+  if (bindedEvts) {
+    bindedMap = bindedEvts.reduce((m, o) => {
+      return { ...m, [o.returnValues.id]: true }
+    }, {})
+  }
+
   const pevts = await licInst.getPastEvents('GenerateLicenseEvent', {
     filter: {
       issueAddr: [selectedAddress],
@@ -294,6 +311,7 @@ export async function getCompleteOrders(licInst, { selectedAddress, chainId }) {
       purchaseId: e.returnValues.id,
       issueAddress: e.returnValues.issueAddr,
       purchaseDays: parseInt(e.returnValues.nDays),
+      used: bindedMap[e.returnValues.id] || false,
     }
     return r
   })

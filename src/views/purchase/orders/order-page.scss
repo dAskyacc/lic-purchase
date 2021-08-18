@@ -30,3 +30,32 @@
     align-items: center;
   }
 }
+
+.sig {
+  &-qrtip {
+    &-wrapper {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-toolbar {
+      cursor: pointer;
+      padding: 0.5rem 0.5rem 0 0.5rem;
+
+      &:focus,
+      &:hover {
+        & > span {
+          color: indigo;
+        }
+      }
+      > span {
+        color: #000;
+        &:not(:first-child) {
+          margin-left: 0.75rem;
+        }
+      }
+    }
+  }
+}
