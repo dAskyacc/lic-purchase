@@ -6,7 +6,7 @@ import NavFooterPage from './nav-footer-comp'
 
 /**
  *
- * @module: foot/footer 
+ * @module: foot/footer
  * @Created:  21-08-10 21:39 Tuesday
  * make state inject into react dom props
  *
@@ -14,11 +14,11 @@ import NavFooterPage from './nav-footer-comp'
 const mapStateToProps = (state) => {
   // global state contains skinState ... ed.
   const {
-    skinState: { header },
+    skinState: { isBrowser },
   } = state
 
   return {
-    header,
+    isBrowser,
   }
 }
 

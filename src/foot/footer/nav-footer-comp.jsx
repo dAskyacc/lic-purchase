@@ -43,20 +43,23 @@ export default class NavFooterComp extends Component {
   }
 
   renderContent() {
+    const { isBrowser } = this.props
     return (
       <div className='nav-foot__content'>
         <span className='cpy'>
           Copyright © 2020-2021 Agent. All Rights Reserved.
         </span>
 
-        <Button
-          type='text'
-          className='nav-foot-btn'
-          size='small'
-          onClick={this.gotoFaucet}
-        >
-          获取Gas费
-        </Button>
+        {isBrowser ? (
+          <Button
+            type='text'
+            className='nav-foot-btn'
+            size='small'
+            onClick={this.gotoFaucet}
+          >
+            获取Gas费
+          </Button>
+        ) : null}
       </div>
     )
   }

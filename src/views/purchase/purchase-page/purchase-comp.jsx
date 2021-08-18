@@ -146,6 +146,7 @@ export default class PurchaseComp extends Component {
 
   renderForm() {
     const {
+      isMobile,
       tokenSymbol,
       tokenBalText,
       ethBalText,
@@ -208,7 +209,9 @@ export default class PurchaseComp extends Component {
             <span className='purchase-fee'>{this.state.totalFee}</span>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+          <Form.Item
+            wrapperCol={{ span: isMobile ? 24 : 12, offset: isMobile ? 0 : 6 }}
+          >
             <div className='purchase-form-btns'>
               {needApprove ? (
                 <Button
@@ -283,7 +286,7 @@ export default class PurchaseComp extends Component {
         <div className='purchase-order'>
           <div
             className='purchase-order-title'
-            style={{ height: `${this.state.qrsize}px` }}
+            style={{ minHeight: `${this.state.qrsize}px` }}
           >
             <div className='title-content'>
               <span className='purchase-tx'>

@@ -51,8 +51,9 @@ window.packParams = packParams
  */
 const mapStateToProps = (state) => {
   // global state contains skinState ... ed.
-  const { mmState, tokenState, orderState } = state
+  const { mmState, tokenState, orderState, skinState } = state
 
+  const { isMobile } = skinState
   const { chainId, selectedAddress } = mmState
 
   const {
@@ -70,6 +71,7 @@ const mapStateToProps = (state) => {
 
   const allowanceValt = tokenAccepted ? tokenAllowance[tokenAccepted] : 0
   return {
+    isMobile,
     chainId,
     selectedAddress,
     tokenSymbol,

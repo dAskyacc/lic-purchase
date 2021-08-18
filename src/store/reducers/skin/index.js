@@ -1,7 +1,10 @@
+import { isMobile, isBrowser } from 'react-device-detect'
 import { SET_PAGE_HEADER_TITLE } from '../../core-action-types'
 
 export default function reduceSkin(state = {}, { type, val }) {
   const skinState = {
+    isMobile: isMobile || false,
+    isBrowser,
     header: {
       pageTitle: '',
     },

@@ -1,10 +1,11 @@
 {
   "name": "ninja-lic-dapp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "license management dapp",
   "main": "ci/index.js",
   "scripts": {
     "start": "webpack serve --config ci/webpack/webpack.dev.js",
+    "dev:pub": "webpack serve --config ci/webpack/webpack.dev.js --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --config ci/webpack/webpack.prod.js",
     "serve": "yarn build && lite-server -c ci/svr-bsconf.js",
     "prettier": "prettier \"src/**/*.*(js|jsx)\" --ignore-path=.prettierignore --write",
@@ -46,6 +47,7 @@
     "qrcode.react": "^1.0.1",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.3",
+    "react-device-detect": "^1.17.0",
     "react-dom": "^17.0.2",
     "react-qr-code": "^2.0.1",
     "react-redux": "^7.2.4",

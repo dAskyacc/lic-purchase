@@ -19,13 +19,14 @@ import {
 const mapStateToProps = (state) => {
   // global state contains skinState ... ed.
   const {
-    skinState: { header },
+    skinState: { isMobile, isBrowser },
     mmState,
   } = state
 
   return {
-    header,
     mmState,
+    isMobile,
+    isBrowser,
   }
 }
 

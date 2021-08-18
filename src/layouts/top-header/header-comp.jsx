@@ -85,11 +85,12 @@ export default class HeaderComp extends Component {
   }
 
   renderActions() {
+    const { isMobile, isBrowser } = this.props
     const { chainId } = this.props.mmState
     const networkEnabled = chainSupported(chainId)
     return (
       <div className='nav-head-actions'>
-        {networkEnabled ? (
+        {networkEnabled && isBrowser ? (
           <span
             className='navact-menu'
             onClick={this.gotoPage.bind(this, ORDERS_PAGE_NESTED)}

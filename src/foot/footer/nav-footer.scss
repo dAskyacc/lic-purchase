@@ -74,3 +74,124 @@
     }
   }
 }
+
+/**
+ * 21-08-10 19:46 Tuesday 
+ * This file used define the module top-header styles.
+ * This file must be imported into parent scss file, to take it effect.
+ * like : @import './top-header/top-header.scss';
+ */
+
+/* there can define module variables or function */
+.nav {
+  &act {
+    &-menu {
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+    }
+  }
+
+  &-head {
+    display: flex;
+    flex-flow: row nowrap;
+    &.ant-layout-header {
+      // background-color: rgba(240, 242, 245, 1);
+      background: transparent;
+      color: #fff;
+    }
+
+    &-menus {
+      flex: 1 1 auto;
+    }
+  }
+
+  &-head {
+    &-logo {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+
+      > span:not(:first-child) {
+        padding-left: 0.75rem;
+      }
+    }
+
+    &-network {
+      font-size: 1.5rem;
+    }
+  }
+
+  &-head-actions {
+    & span:not(:first-child) {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &-metamask-state {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 4px 0.5rem;
+    align-items: flex-start;
+    justify-content: center;
+
+    & > .network {
+      color: $success-text-color;
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+
+      &.network-disabled {
+        color: $warn-text-color;
+      }
+    }
+
+    & > .selected-address {
+      font-size: 0.75rem;
+      line-height: 1.2rem;
+    }
+  }
+}
+
+@media (device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  /* 兼容iphone5 */
+  .nav {
+    &-foot {
+      &.ant-layout-footer {
+        padding: 10px 10px;
+      }
+    }
+  }
+}
+@media only screen and (max-device-width: 480px) {
+  .nav {
+    &-foot {
+      &.ant-layout-footer {
+        padding: 10px 10px;
+      }
+    }
+  }
+}
+@media only screen and (min-device-width: 481px) {
+}
+
+/*6*/
+@media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  .nav {
+    &-foot {
+      &.ant-layout-footer {
+        padding: 10px 10px;
+      }
+    }
+  }
+}
+
+/*6+*/
+@media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+  .nav {
+    &-foot {
+      &.ant-layout-footer {
+        padding: 10px 10px;
+      }
+    }
+  }
+}

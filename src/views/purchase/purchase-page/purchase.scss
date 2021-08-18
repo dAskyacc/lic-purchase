@@ -188,3 +188,60 @@ span.sbrave-label {
     content: attr('data-label');
   }
 }
+
+@media (device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .purchase {
+    &-container {
+      width: 100%;
+
+      h1 {
+        line-height: 2.75em;
+        font-size: 1.75em;
+        text-align: center;
+      }
+    }
+
+    &-order {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: flex-start;
+
+      &-action {
+        width: 100%;
+        flex: 1 1 0;
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+      }
+    }
+  }
+}
+@media only screen and (max-device-width: 480px) {
+  .purchase {
+    &-container {
+      width: 100%;
+
+      h1 {
+        line-height: 2.75em;
+        font-size: 1.75em;
+        text-align: center;
+      }
+    }
+
+    &-order {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: flex-start;
+
+      &-action {
+        width: 100%;
+        flex: 1 1 0;
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+      }
+    }
+  }
+}
