@@ -316,11 +316,9 @@ export default class PurchaseComp extends Component {
               </span>
             </div>
 
-            <div className='title-action'>
-              {txStatus === TX_COMPLETED
-                ? this.renderOrderButtions({ signedData, purchaseId })
-                : null}
-            </div>
+            {txStatus === TX_COMPLETED
+              ? this.renderOrderButtions({ signedData, purchaseId })
+              : null}
           </div>
 
           <div className='purchase-order-action'>
@@ -334,8 +332,8 @@ export default class PurchaseComp extends Component {
   renderOrderButtions({ purchaseId, signedData }) {
     const { isMobile } = this.props
     return (
-      <div className='purchase-order-action'>
-        {isMobile && (
+      <div className='title-action'>
+        {!isMobile && (
           <a
             type='link'
             id='downLinkID'

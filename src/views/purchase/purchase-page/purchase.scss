@@ -154,9 +154,16 @@
         flex: 1 1 auto;
       }
 
-      > div.title-action {
+      .title-action {
+        width: 100%;
         display: flex;
-        justify-content: space-evenly;
+        flex-flow: row;
+        justify-content: space-between;
+        & > a,
+        & > button {
+          flex: 1 1 45%;
+          margin: 0 6px;
+        }
       }
     }
 
@@ -166,12 +173,6 @@
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
-
-      & > a,
-      & > button {
-        flex: 1 1 45%;
-        margin: 0 6px;
-      }
     }
 
     &-icon {
